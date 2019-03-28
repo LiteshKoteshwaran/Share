@@ -1,0 +1,38 @@
+﻿@using MyBasket.Models
+
+@model List<LineItem>
+    
+<table class="table table-bordered table-responsive">
+    <thead>
+    <tr>
+        <th>Product</th>
+        <th>Description</th>
+        <th>Unit Price</th>
+        <th>Quantity</th>
+        <th>Discount</th>
+        <th>Total Price</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (LineItem Item in Model)
+    {
+        <tr>
+            <td>
+                @Item.Product.Picture + @Item.Product.Name
+            </td>
+            
+            <td>@Item.Product.Description</td>
+            <td>@Item.UnitPrice</td>
+            <td>@Item.Quantity</td>
+            <td>@Item.Discount</td>
+            <td>@(Item.UnitPrice*Item.Quantity*(100-Item.Discount)/100)</td>
+            <td>
+                @Html.ActionLink("Remove","RemoveItemFromCart",new {id=Item.Product.ID})
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@Html.ActionLink("Empty Cart", "EmptyCart")
