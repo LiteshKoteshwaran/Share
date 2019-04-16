@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+<div class="container">
+    <div class="align-content-center">
+        @Html.ActionLink("Add Employee", "Add", "Employee", null, new {@class = "btn btn-primary"}) |
+        @Html.ActionLink("Modify", null, null, null, new {@class = "btn btn-primary", @onclick = "ShowTextBox()"})
+    </div>
+    <div id="TextBox" class="form-group"></div>
+</div>
+
+<script>
+    function ShowTextBox() {
+        $("#TextBox").html('<div><input id="id" type="text" placeholder="search for Employee here" /> </div> <div> @Html.ActionLink("Search", "Edit", "Employee", null, new {@class = "btn btn-primary"}) </div>');
+    }
+</script>

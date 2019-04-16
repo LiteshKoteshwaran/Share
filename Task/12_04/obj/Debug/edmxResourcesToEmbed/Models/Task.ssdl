@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TaskModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tblAddress">
+    <Key>
+      <PropertyRef Name="AddressID" />
+    </Key>
+    <Property Name="AddressID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Address1" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Address2" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Address3" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="StateID" Type="int" Nullable="false" />
+    <Property Name="DistrictID" Type="int" Nullable="false" />
+    <Property Name="CityID" Type="int" Nullable="false" />
+    <Property Name="Pincode" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblEmployeeDetails">
+    <Key>
+      <PropertyRef Name="EmployeeDetailsID" />
+    </Key>
+    <Property Name="EmployeeDetailsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Phone" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Mobile" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="EmployeeAddressID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblMasCity">
+    <Key>
+      <PropertyRef Name="CityID" />
+    </Key>
+    <Property Name="CityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CityName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CityDistrictID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblMasDistrict">
+    <Key>
+      <PropertyRef Name="DistrictID" />
+    </Key>
+    <Property Name="DistrictID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DistrictName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="DistrictStateID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblMasState">
+    <Key>
+      <PropertyRef Name="StateID" />
+    </Key>
+    <Property Name="StateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StateName" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_tblAddress_tblMasCity">
+    <End Role="tblMasCity" Type="Self.tblMasCity" Multiplicity="1" />
+    <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblMasCity">
+        <PropertyRef Name="CityID" />
+      </Principal>
+      <Dependent Role="tblAddress">
+        <PropertyRef Name="CityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblAddress_tblMasDistrict">
+    <End Role="tblMasDistrict" Type="Self.tblMasDistrict" Multiplicity="1" />
+    <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblMasDistrict">
+        <PropertyRef Name="DistrictID" />
+      </Principal>
+      <Dependent Role="tblAddress">
+        <PropertyRef Name="DistrictID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblAddress_tblMasState">
+    <End Role="tblMasState" Type="Self.tblMasState" Multiplicity="1" />
+    <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblMasState">
+        <PropertyRef Name="StateID" />
+      </Principal>
+      <Dependent Role="tblAddress">
+        <PropertyRef Name="StateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblEmployeeDetails_tblEmployeeDetails">
+    <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="1" />
+    <End Role="tblEmployeeDetails" Type="Self.tblEmployeeDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblAddress">
+        <PropertyRef Name="AddressID" />
+      </Principal>
+      <Dependent Role="tblEmployeeDetails">
+        <PropertyRef Name="EmployeeAddressID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblMasCity_tblMasDistrict">
+    <End Role="tblMasDistrict" Type="Self.tblMasDistrict" Multiplicity="1" />
+    <End Role="tblMasCity" Type="Self.tblMasCity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblMasDistrict">
+        <PropertyRef Name="DistrictID" />
+      </Principal>
+      <Dependent Role="tblMasCity">
+        <PropertyRef Name="CityDistrictID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblMasDistrict_tblMasDistrict">
+    <End Role="tblMasState" Type="Self.tblMasState" Multiplicity="1" />
+    <End Role="tblMasDistrict" Type="Self.tblMasDistrict" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblMasState">
+        <PropertyRef Name="StateID" />
+      </Principal>
+      <Dependent Role="tblMasDistrict">
+        <PropertyRef Name="DistrictStateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TaskModelStoreContainer">
+    <EntitySet Name="tblAddress" EntityType="Self.tblAddress" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblEmployeeDetails" EntityType="Self.tblEmployeeDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblMasCity" EntityType="Self.tblMasCity" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblMasDistrict" EntityType="Self.tblMasDistrict" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblMasState" EntityType="Self.tblMasState" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_tblAddress_tblMasCity" Association="Self.FK_tblAddress_tblMasCity">
+      <End Role="tblMasCity" EntitySet="tblMasCity" />
+      <End Role="tblAddress" EntitySet="tblAddress" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblAddress_tblMasDistrict" Association="Self.FK_tblAddress_tblMasDistrict">
+      <End Role="tblMasDistrict" EntitySet="tblMasDistrict" />
+      <End Role="tblAddress" EntitySet="tblAddress" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblAddress_tblMasState" Association="Self.FK_tblAddress_tblMasState">
+      <End Role="tblMasState" EntitySet="tblMasState" />
+      <End Role="tblAddress" EntitySet="tblAddress" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblEmployeeDetails_tblEmployeeDetails" Association="Self.FK_tblEmployeeDetails_tblEmployeeDetails">
+      <End Role="tblAddress" EntitySet="tblAddress" />
+      <End Role="tblEmployeeDetails" EntitySet="tblEmployeeDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblMasCity_tblMasDistrict" Association="Self.FK_tblMasCity_tblMasDistrict">
+      <End Role="tblMasDistrict" EntitySet="tblMasDistrict" />
+      <End Role="tblMasCity" EntitySet="tblMasCity" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblMasDistrict_tblMasDistrict" Association="Self.FK_tblMasDistrict_tblMasDistrict">
+      <End Role="tblMasState" EntitySet="tblMasState" />
+      <End Role="tblMasDistrict" EntitySet="tblMasDistrict" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

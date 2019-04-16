@@ -1,0 +1,71 @@
+﻿@using _12_04.Models
+@model _12_04.Models.Employee
+@{
+    Layout = "~/Views/Shared/Layout.cshtml";
+    List<SelectListItem> Districts = new List<SelectListItem>();
+    List<SelectListItem> Cities = new List<SelectListItem>();
+    if (ViewBag.Employee.Districts != null)
+    {
+        Districts = ViewBag.Employee.Districts;
+    }
+    if (ViewBag.Employee.Cities != null)
+    {
+        Cities = ViewBag.Employee.Cities;
+    }
+}
+
+<div class="form-group col-md-4">
+    @Html.LabelFor(model => model.EmployeeAddress.State.States, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-12">
+        @Html.DropDownListFor(model => model.EmployeeAddress.State.StateID, Model.States, "Please select", new { @onchange = "LookForDistrict(value)", htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.EmployeeAddress.State, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-group col-md-4">
+    @Html.LabelFor(model => model.EmployeeAddress.District.Districts, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-12">
+        @Html.DropDownListFor(model => model.EmployeeAddress.District.DistrictID, Districts, "Please select", new { @onchange = "LookForCity(value)", htmlAttributes = new { @class = "form-control" }, disabled = "disabled" })
+        @Html.ValidationMessageFor(model => model.EmployeeAddress.District, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-group col-md-4">
+    @Html.LabelFor(model => model.EmployeeAddress.City.Cities, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-12">
+        @Html.DropDownListFor(model => model.EmployeeAddress.City.CityID, Cities, "Please select", new { @onchange = "LookForCity(value)", htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.EmployeeAddress.City, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<script>
+    function LookForDistrict(id) {
+        $.ajax({
+            type: "GET",
+            url: "/Employee/Add",
+            data: { StateId: id },
+            success: function () {
+                @*var data = @Html.Raw(ViewBag.Employee);
+                Districts = data.Districts;*@
+            }
+        });
+        $("#EmployeeAddress_District_DistrictID").removeAttr("disabled");
+        var model = @Html.Raw(Json.Encode(Model));
+        var a = model.Districts;
+        var model1 = @Html.Raw(Json.Encode(@TempData["Employee"]));
+        $("#EmployeeAddress_District_DistrictID").append(model.Districts);
+
+    }
+
+    function LookForCities(id) {
+        $.ajax({
+            type: "GET",
+            url: "/Employee/Add/",
+            data: { DistrictId: id },
+            success: function (data) {
+                Cities = data.Cities;
+            }
+        });
+        if ($("#CityId option").length > 1) {
+            $("#CityId").removeAttr("disabled");
+        }
+    }
+</script>

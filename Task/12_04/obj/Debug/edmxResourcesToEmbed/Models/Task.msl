@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TaskModelStoreContainer" CdmEntityContainer="TaskEntities">
+    <EntitySetMapping Name="tblAddresses">
+      <EntityTypeMapping TypeName="TaskModel.tblAddress">
+        <MappingFragment StoreEntitySet="tblAddress">
+          <ScalarProperty Name="AddressID" ColumnName="AddressID" />
+          <ScalarProperty Name="Address1" ColumnName="Address1" />
+          <ScalarProperty Name="Address2" ColumnName="Address2" />
+          <ScalarProperty Name="Address3" ColumnName="Address3" />
+          <ScalarProperty Name="StateID" ColumnName="StateID" />
+          <ScalarProperty Name="DistrictID" ColumnName="DistrictID" />
+          <ScalarProperty Name="CityID" ColumnName="CityID" />
+          <ScalarProperty Name="Pincode" ColumnName="Pincode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblEmployeeDetails">
+      <EntityTypeMapping TypeName="TaskModel.tblEmployeeDetail">
+        <MappingFragment StoreEntitySet="tblEmployeeDetails">
+          <ScalarProperty Name="EmployeeDetailsID" ColumnName="EmployeeDetailsID" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="EmployeeAddressID" ColumnName="EmployeeAddressID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblMasCities">
+      <EntityTypeMapping TypeName="TaskModel.tblMasCity">
+        <MappingFragment StoreEntitySet="tblMasCity">
+          <ScalarProperty Name="CityID" ColumnName="CityID" />
+          <ScalarProperty Name="CityName" ColumnName="CityName" />
+          <ScalarProperty Name="CityDistrictID" ColumnName="CityDistrictID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblMasDistricts">
+      <EntityTypeMapping TypeName="TaskModel.tblMasDistrict">
+        <MappingFragment StoreEntitySet="tblMasDistrict">
+          <ScalarProperty Name="DistrictID" ColumnName="DistrictID" />
+          <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+          <ScalarProperty Name="DistrictStateID" ColumnName="DistrictStateID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblMasStates">
+      <EntityTypeMapping TypeName="TaskModel.tblMasState">
+        <MappingFragment StoreEntitySet="tblMasState">
+          <ScalarProperty Name="StateID" ColumnName="StateID" />
+          <ScalarProperty Name="StateName" ColumnName="StateName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
