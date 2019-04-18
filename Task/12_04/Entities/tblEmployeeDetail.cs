@@ -20,8 +20,10 @@ namespace _12_04.Entities
         public string Phone { get; set; }
         public string Mobile { get; set; }
         public string Email { get; set; }
-        public int EmployeeAddressID { get; set; }
+        public int CommunicationAddressID { get; set; }
+        public int PermanentAddressID { get; set; }
     
         public virtual tblAddress tblAddress { get; set; }
+        public virtual tblAddress tblAddress1 { get; set; }
     }
 }

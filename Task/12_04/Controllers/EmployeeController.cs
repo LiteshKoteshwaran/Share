@@ -16,64 +16,73 @@ namespace _12_04.Controllers
         // GET: Employee
 
         EmployeeBusiness objEmployeeBusiness = new EmployeeBusiness();
-        //public ActionResult Add()
-        //{
-        //    ViewBag.States = objEmployeeBusiness.GetStates();
-        //    return View(new tblEmployeeDetail());
-        //}
-
         public ActionResult Add(int? StateId, int? DistrictId)
         {
-            return View("Test", ObjEmployee);
+            Employee ObjEmployee = new Employee();
+
+            ObjEmployee.States = objEmployeeBusiness.GetStates();
+            return View(ObjEmployee);
+        }
+
+        [HttpPost]
+        public ActionResult Add(Employee objEmployee)
+        {
+            EmployeeRepository objEmployeeRepository = new EmployeeRepository();
+
+            objEmployeeRepository.AddNewEmployee(objEmployee);
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult ForCasCading(int? StateId, int? DistrictId)
         {
+            string IsStateOrCity = "";
             Employee ObjEmployee = new Employee();
 
             ObjEmployee.States = objEmployeeBusiness.GetStates();
 
             if (StateId.HasValue)
             {
+                IsStateOrCity = "state";
                 ObjEmployee.Districts = objEmployeeBusiness.GetDistricts(StateId);
-
-                if (DistrictId.HasValue)
-                {
-                    ObjEmployee.Cities = objEmployeeBusiness.GetCities(DistrictId);
-                }
+            }
+            if (DistrictId.HasValue)
+            {
+                IsStateOrCity = "city";
+                ObjEmployee.Cities = objEmployeeBusiness.GetCities(DistrictId);
             }
 
-            return Json(ObjEmployee, JsonRequestBehavior.AllowGet);
+
+            if (IsStateOrCity == "state")
+            {
+                return Json(ObjEmployee.Districts, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(ObjEmployee.Cities, JsonRequestBehavior.AllowGet);
+            }
         }
+        public ActionResult Edit(int id)
+        {
+            Employee objEmployee = new Employee();
+            bool IsUserExits;
+            IsUserExits = objEmployeeBusiness.IsUserExits(id);
 
+            if (IsUserExits)
+            {
+                objEmployee = objEmployeeBusiness.GetEmployeeDetails(id);
+                return View("Add",objEmployee);
+            }
+            else
+            {
+                return View("User doest Exits");
+            }
 
-
+        }
         [HttpPost]
-        public ActionResult Add(tblEmployeeDetail objEmployeeDetail)
+        public ActionResult Edit(Employee objEmployee)
         {
-            return View();
+            new EmployeeRepository().UpdateEmployeeDetails(objEmployee);
+            return RedirectToAction("Index","Home");
         }
-        public ActionResult Edit()
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Edit(tblEmployeeDetail objEmployeeDetail)
-        {
-            return View();
-        }
-
-        //public List<tblMasDistrict> CascadeDistrict(int id)
-        //{
-        //    ViewBag.Districts = Json(objEmployeeBusiness.GetDistricts(id));
-        //    return objEmployeeBusiness.GetDistricts(id);
-        //}
-
-        //public JsonResult CascadeDistrict(int id)
-        //{
-        //    return Json(objEmployeeBusiness.GetDistricts(id), JsonRequestBehavior.AllowGet);
-        //    //return Json();
-        //}
-
     }
 }

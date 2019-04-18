@@ -26,9 +26,9 @@ namespace _12_04.Entities
         }
     
         public virtual DbSet<tblAddress> tblAddresses { get; set; }
-        public virtual DbSet<tblEmployeeDetail> tblEmployeeDetails { get; set; }
         public virtual DbSet<tblMasCity> tblMasCities { get; set; }
         public virtual DbSet<tblMasDistrict> tblMasDistricts { get; set; }
         public virtual DbSet<tblMasState> tblMasStates { get; set; }
+        public virtual DbSet<tblEmployeeDetail> tblEmployeeDetails { get; set; }
     }
 }

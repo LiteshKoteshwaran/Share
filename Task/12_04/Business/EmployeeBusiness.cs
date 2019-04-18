@@ -11,35 +11,31 @@ namespace _12_04.Business
     public class EmployeeBusiness
     {
         EmployeeRepository ObjEmployeeRepository = new EmployeeRepository();
-        public List<SelectListItem> GetStates()
+        public List<State> GetStates()
         {
             return ObjEmployeeRepository.FetchStates();
         }
 
-        public List<SelectListItem> GetDistricts(int? Id)
+        public List<District> GetDistricts(int? Id)
         {
-            List<SelectListItem> Districts = new List<SelectListItem>();
-            var districts = ObjEmployeeRepository.FetchDistricts(Id);
-
-            foreach (var district in districts)
-            {
-                Districts.Add(new SelectListItem { Text = district.DistrictName, Value = district.DistrictID.ToString() });
-            }
-
-            return Districts;
+            return ObjEmployeeRepository.FetchDistricts(Id);
         }
         
-        public List<SelectListItem> GetCities(int? Id)
+        public List<City> GetCities(int? Id)
         {
-            List<SelectListItem> Cities = new List<SelectListItem>();
-            var cities = ObjEmployeeRepository.FetchCities(Id);
+            return ObjEmployeeRepository.FetchCities(Id);
+      }
 
-            foreach (var city in cities)
-            {
-                Cities.Add(new SelectListItem { Text = city.DistrictName, Value = city.DistrictID.ToString() });
-            }
+        public bool IsUserExits(int id)
+        {
+            return ObjEmployeeRepository.CheckForEmployee(id);
+        }
 
-            return Cities;
+        public Employee GetEmployeeDetails(int EmployeeID)
+        {
+            Employee employee = new Employee();
+            employee = ObjEmployeeRepository.FetchEmployeeDetails(EmployeeID);
+            return employee;
         }
     }
 }

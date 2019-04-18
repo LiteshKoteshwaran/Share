@@ -18,6 +18,7 @@ namespace _12_04.Entities
         public tblAddress()
         {
             this.tblEmployeeDetails = new HashSet<tblEmployeeDetail>();
+            this.tblEmployeeDetails1 = new HashSet<tblEmployeeDetail>();
         }
     
         public int AddressID { get; set; }
@@ -34,5 +35,7 @@ namespace _12_04.Entities
         public virtual tblMasState tblMasState { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblEmployeeDetail> tblEmployeeDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblEmployeeDetail> tblEmployeeDetails1 { get; set; }
     }
 }

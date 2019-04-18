@@ -4,15 +4,38 @@
     Layout = "~/Views/Shared/Layout.cshtml";
 }
 <div class="container">
-    <div class="align-content-center">
-        @Html.ActionLink("Add Employee", "Add", "Employee", null, new {@class = "btn btn-primary"}) |
-        @Html.ActionLink("Modify", null, null, null, new {@class = "btn btn-primary", @onclick = "ShowTextBox()"})
+    <div align="center">
+        @Html.ActionLink("Add Employee", "Add", "Employee", null, new { @class = "btn btn-primary" }) |
+        <button class="btn btn-primary" onclick='ShowTextBox()'>Modify</button>
     </div>
-    <div id="TextBox" class="form-group"></div>
+    <div id="TextBox" align="center" class="form-group"></div>
+</div>
+<div id="ForSearch">
+    <input type="text" id="EmployeeId" placeholder="Search for Employee" />
+    <input id="searchbutton"type="button" class="btn btn-primary" value="Search" onclick="location.href = '@Url.Action("Edit", "Employee")?id=' + document.getElementById('EmployeeId').value" />
 </div>
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
 <script>
+    //jQuery("body").prepend('<div id="preloader">Loading...</div>');
+    //jQuery(document).ready(function () {
+    //    jQuery("#ForSearch").hide();
+    //});
+
+    $(window).load(function () {
+        $("#ForSearch").hide();
+    });
+
     function ShowTextBox() {
-        $("#TextBox").html('<div><input id="id" type="text" placeholder="search for Employee here" /> </div> <div> @Html.ActionLink("Search", "Edit", "Employee", null, new {@class = "btn btn-primary"}) </div>');
+        $("#ForSearch").show();
+        $("#searchbutton").click(function() {
+            document.getElementById("SaveORModify").value = "Modify";
+            $("#SaveORModify").html('<button class="btn btn-primary">Modify</button>');
+
+        });
+        //$("#SaveORModify").html('<button class="btn btn-primary">Modify</button>');
     }
 </script>
+
+

@@ -1,15 +1,10 @@
 ﻿@using _12_04.Models
-@model _12_04.Models.tblEmployeeDetail
+@model _12_04.Models.Employee
 
 @{
     ViewBag.Title = "Add";
     Layout = "~/Views/Shared/Layout.cshtml";
-    List<tblMasState> states = ViewBag.States;
-    List<tblMasDistrict> districts = new List<tblMasDistrict>();
-    //if (ViewBag.Districts.ToString()!=null)
-    //{
-    //    districts = ViewBag.Districts;
-    //}
+
 }
 @using (Html.BeginForm())
 {
@@ -17,6 +12,8 @@
         <h6 class="alert alert-info" data-toggle="collapse" data-target="#EmpDetails">Employee Details</h6>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model=>model.EmployeeID)
+
         <div class="row" id="EmpDetails">
             <div class="form-group col-md-4">
                 @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -63,49 +60,56 @@
         <hr />
         <div id="ComAddress" class="row">
             <div class="form-group col-md-4">
-                @Html.LabelFor(model => model.tblAddress.Address1, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.CommunicationAddress.Address1, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-12">
-                    @Html.EditorFor(model => model.tblAddress.Address1, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.tblAddress.Address1, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.CommunicationAddress.Address1, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CommunicationAddress.Address1, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group col-md-4">
-                @Html.LabelFor(model => model.tblAddress.Address2, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.CommunicationAddress.Address2, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-12">
-                    @Html.EditorFor(model => model.tblAddress.Address2, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.tblAddress.Address2, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.CommunicationAddress.Address2, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CommunicationAddress.Address2, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group col-md-4">
-                @Html.LabelFor(model => model.tblAddress.Address3, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.CommunicationAddress.Address3, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-12">
-                    @Html.EditorFor(model => model.tblAddress.Address3, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.tblAddress.Address3, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.CommunicationAddress.Address3, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CommunicationAddress.Address3, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group col-md-4">
-                @Html.LabelFor(model => model.tblAddress.Pincode, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.CommunicationAddress.State.States, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-12">
-                    @Html.EditorFor(model => model.tblAddress.Pincode, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.tblAddress.Pincode, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(model => model.CommunicationAddress.State.StateID,new SelectList(Model.States,"StateID","States"),"Select State", new { id="ddlCommunicationState", htmlAttributes = new { @class = "form-control" }})
+                    @Html.ValidationMessageFor(model => model.CommunicationAddress, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group col-md-4">
-                @Html.LabelFor(model => model.tblAddress.tblMasState.StateName, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.CommunicationAddress.District.Districts, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-12">
-                    @Html.DropDownListFor(model => model.tblAddress.tblMasState.StateID, new SelectList(states, "StateID", "StateName"), new { @onchange = "LookForDistrict(value)", htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.tblAddress.tblMasState.StateName, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(model => model.CommunicationAddress.District.DistrictID, new SelectList(Model.Districts, "DistrictID", "Districts"), "Select Districts", new {id="ddlCommunicationDistrict", htmlAttributes = new { @class = "form-control"} })
+                    @Html.ValidationMessageFor(model => model.CommunicationAddress.District, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group col-md-4">
-                @Html.LabelFor(model => model.tblAddress.tblMasDistrict.DistrictName, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.CommunicationAddress.City.Cities, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-12">
-                    @Html.DropDownListFor(model => model.tblAddress.tblMasDistrict.DistrictID,new SelectList(districts,"DistrictID","DistrictName") ,new { @onchange = "LookForCity(value)", htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.tblAddress.tblMasDistrict.DistrictID, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(model => model.CommunicationAddress.City.CityID, new SelectList(Model.Cities,"CityID", "Cities"), "Select City", new {id= "ddlCommunicationCity", htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CommunicationAddress.City, "", new { @class = "text-danger" })
                 </div>
             </div>
-        </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.CommunicationAddress.Pincode, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.CommunicationAddress.Pincode, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CommunicationAddress.Pincode, "", new { @class = "text-danger" })
+                </div>
+            </div>
 
+        </div>
         <h6 class="alert alert-info" data-toggle="collapse" data-target="#PermanentAddress">Permanent Address</h6>
         <div action="/action_page.php">
             <input type="checkbox" onclick="HideFieldsForPermanent()" name="IsPermanent" value="True"> Is Permanent Address same as Communication Address??<br>
@@ -114,85 +118,60 @@
         <div id="IsPermanent">
             <div id="PermanentAddress" class="row">
                 <div class="form-group col-md-4">
-                    @Html.LabelFor(model => model.tblAddress.Address1, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.PermanentAddress.Address1, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.tblAddress.Address1, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.tblAddress.Address1, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.PermanentAddress.Address1, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PermanentAddress.Address1, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group col-md-4">
-                    @Html.LabelFor(model => model.tblAddress.Address2, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.PermanentAddress.Address2, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.tblAddress.Address2, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.tblAddress.Address2, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.PermanentAddress.Address2, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PermanentAddress.Address2, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group col-md-4">
-                    @Html.LabelFor(model => model.tblAddress.Address3, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.PermanentAddress.Address3, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.tblAddress.Address3, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.tblAddress.Address3, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.PermanentAddress.Address3, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PermanentAddress.Address3, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group col-md-4">
-                    @Html.LabelFor(model => model.tblAddress.tblMasState.StateName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.PermanentAddress.State.States, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.tblAddress.tblMasState.StateName, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.tblAddress.tblMasState.StateName, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor(model => model.PermanentAddress.State.StateID, new SelectList(Model.States, "StateID", "States"), "Please select", new {id="ddlPermanentState" , htmlAttributes = new { @class = "form-control" }} )
+                        @Html.ValidationMessageFor(model => model.PermanentAddress.State, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group col-md-4">
-                    @Html.LabelFor(model => model.tblAddress.Pincode, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.PermanentAddress.District.Districts, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.tblAddress.Pincode, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.tblAddress.Pincode, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor(model => model.PermanentAddress.District.DistrictID, new SelectList(Model.Districts, "DistrictID", "Districts"), "Please select", new { id= "ddlPermanentDistrict", htmlAttributes = new { @class = "form-control" }})
+                        @Html.ValidationMessageFor(model => model.PermanentAddress.District, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group col-md-4">
-                    @Html.LabelFor(model => model.tblAddress.Pincode, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.PermanentAddress.City.Cities, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.tblAddress.Pincode, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.tblAddress.Pincode, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor(model => model.PermanentAddress.City.CityID, new SelectList(Model.Cities, "CityID", "City"), "Please select", new { id= "ddlPermanentCity",htmlAttributes = new { @class = "form-control" }})
+                        @Html.ValidationMessageFor(model => model.PermanentAddress.City, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group col-md-4">
-                    @Html.LabelFor(model => model.tblAddress.Pincode, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.PermanentAddress.Pincode, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.tblAddress.Pincode, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.tblAddress.Pincode, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.PermanentAddress.Pincode, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PermanentAddress.Pincode, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
             </div>
         </div>
     </div>
+    <div id="SaveORModify">
+        <button class="btn btn-primary">Save</button>
+    </div>
+    <button class="btn btn-primary" onclick="@Url.Action("Index","Home")"> Cancel</button>
 }
-
-<script>
-    function HideFieldsForPermanent() {
-        $("#IsPermanent").hide();
-    }
-</script>
-<script>
-    function LookForDistrict(id) {
-        debugger
-        $.ajax({
-            type: "GET",
-            url: "/Employee/CascadeDistrict?id=" + id,
-            success: function (data) {
-                var myData = JSON.stringify(data);
-                debugger
-                var list = @Html.Raw(Json.Encode(@ViewBag.Districts));
-                var len = list.length;
-                $("#DistrictID").empty();
-                for (var i = 0; i < len; i++) {
-                    var id = myData[i]["id"];
-                    var name = myData[i]["name"];
-
-                    $("#DistrictID").append("<option value='" + id + "'>" + name + "</option>");
-
-                }
-            }
-        });
-    }
-</script>

@@ -23,7 +23,8 @@
     <Property Name="Phone" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Mobile" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="EmployeeAddressID" Type="int" Nullable="false" />
+    <Property Name="CommunicationAddressID" Type="int" Nullable="false" />
+    <Property Name="PermanentAddressID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="tblMasCity">
     <Key>
@@ -84,7 +85,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tblEmployeeDetails_tblEmployeeDetails">
+  <Association Name="FK_tblEmployeeDetails_tblAddress">
     <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="1" />
     <End Role="tblEmployeeDetails" Type="Self.tblEmployeeDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -92,7 +93,19 @@
         <PropertyRef Name="AddressID" />
       </Principal>
       <Dependent Role="tblEmployeeDetails">
-        <PropertyRef Name="EmployeeAddressID" />
+        <PropertyRef Name="CommunicationAddressID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblEmployeeDetails_tblAddress1">
+    <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="1" />
+    <End Role="tblEmployeeDetails" Type="Self.tblEmployeeDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblAddress">
+        <PropertyRef Name="AddressID" />
+      </Principal>
+      <Dependent Role="tblEmployeeDetails">
+        <PropertyRef Name="PermanentAddressID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -138,7 +151,11 @@
       <End Role="tblMasState" EntitySet="tblMasState" />
       <End Role="tblAddress" EntitySet="tblAddress" />
     </AssociationSet>
-    <AssociationSet Name="FK_tblEmployeeDetails_tblEmployeeDetails" Association="Self.FK_tblEmployeeDetails_tblEmployeeDetails">
+    <AssociationSet Name="FK_tblEmployeeDetails_tblAddress" Association="Self.FK_tblEmployeeDetails_tblAddress">
+      <End Role="tblAddress" EntitySet="tblAddress" />
+      <End Role="tblEmployeeDetails" EntitySet="tblEmployeeDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblEmployeeDetails_tblAddress1" Association="Self.FK_tblEmployeeDetails_tblAddress1">
       <End Role="tblAddress" EntitySet="tblAddress" />
       <End Role="tblEmployeeDetails" EntitySet="tblEmployeeDetails" />
     </AssociationSet>

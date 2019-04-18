@@ -15,20 +15,8 @@
     <NavigationProperty Name="tblMasCity" Relationship="Self.FK_tblAddress_tblMasCity" FromRole="tblAddress" ToRole="tblMasCity" />
     <NavigationProperty Name="tblMasDistrict" Relationship="Self.FK_tblAddress_tblMasDistrict" FromRole="tblAddress" ToRole="tblMasDistrict" />
     <NavigationProperty Name="tblMasState" Relationship="Self.FK_tblAddress_tblMasState" FromRole="tblAddress" ToRole="tblMasState" />
-    <NavigationProperty Name="tblEmployeeDetails" Relationship="Self.FK_tblEmployeeDetails_tblEmployeeDetails" FromRole="tblAddress" ToRole="tblEmployeeDetails" />
-  </EntityType>
-  <EntityType Name="tblEmployeeDetail">
-    <Key>
-      <PropertyRef Name="EmployeeDetailsID" />
-    </Key>
-    <Property Name="EmployeeDetailsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="EmployeeAddressID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="tblAddress" Relationship="Self.FK_tblEmployeeDetails_tblEmployeeDetails" FromRole="tblEmployeeDetails" ToRole="tblAddress" />
+    <NavigationProperty Name="tblEmployeeDetails" Relationship="TaskModel.FK_tblEmployeeDetails_tblAddress" FromRole="tblAddress" ToRole="tblEmployeeDetail" />
+    <NavigationProperty Name="tblEmployeeDetails1" Relationship="TaskModel.FK_tblEmployeeDetails_tblAddress1" FromRole="tblAddress" ToRole="tblEmployeeDetail" />
   </EntityType>
   <EntityType Name="tblMasCity">
     <Key>
@@ -96,18 +84,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tblEmployeeDetails_tblEmployeeDetails">
-    <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="1" />
-    <End Role="tblEmployeeDetails" Type="Self.tblEmployeeDetail" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tblAddress">
-        <PropertyRef Name="AddressID" />
-      </Principal>
-      <Dependent Role="tblEmployeeDetails">
-        <PropertyRef Name="EmployeeAddressID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_tblMasCity_tblMasDistrict">
     <End Role="tblMasDistrict" Type="Self.tblMasDistrict" Multiplicity="1" />
     <End Role="tblMasCity" Type="Self.tblMasCity" Multiplicity="*" />
@@ -134,7 +110,6 @@
   </Association>
   <EntityContainer Name="TaskEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="tblAddresses" EntityType="Self.tblAddress" />
-    <EntitySet Name="tblEmployeeDetails" EntityType="Self.tblEmployeeDetail" />
     <EntitySet Name="tblMasCities" EntityType="Self.tblMasCity" />
     <EntitySet Name="tblMasDistricts" EntityType="Self.tblMasDistrict" />
     <EntitySet Name="tblMasStates" EntityType="Self.tblMasState" />
@@ -150,10 +125,6 @@
       <End Role="tblMasState" EntitySet="tblMasStates" />
       <End Role="tblAddress" EntitySet="tblAddresses" />
     </AssociationSet>
-    <AssociationSet Name="FK_tblEmployeeDetails_tblEmployeeDetails" Association="Self.FK_tblEmployeeDetails_tblEmployeeDetails">
-      <End Role="tblAddress" EntitySet="tblAddresses" />
-      <End Role="tblEmployeeDetails" EntitySet="tblEmployeeDetails" />
-    </AssociationSet>
     <AssociationSet Name="FK_tblMasCity_tblMasDistrict" Association="Self.FK_tblMasCity_tblMasDistrict">
       <End Role="tblMasDistrict" EntitySet="tblMasDistricts" />
       <End Role="tblMasCity" EntitySet="tblMasCities" />
@@ -162,5 +133,53 @@
       <End Role="tblMasState" EntitySet="tblMasStates" />
       <End Role="tblMasDistrict" EntitySet="tblMasDistricts" />
     </AssociationSet>
+    <EntitySet Name="tblEmployeeDetails" EntityType="TaskModel.tblEmployeeDetail" />
+    <AssociationSet Name="FK_tblEmployeeDetails_tblAddress" Association="TaskModel.FK_tblEmployeeDetails_tblAddress">
+      <End Role="tblAddress" EntitySet="tblAddresses" />
+      <End Role="tblEmployeeDetail" EntitySet="tblEmployeeDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblEmployeeDetails_tblAddress1" Association="TaskModel.FK_tblEmployeeDetails_tblAddress1">
+      <End Role="tblAddress" EntitySet="tblAddresses" />
+      <End Role="tblEmployeeDetail" EntitySet="tblEmployeeDetails" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="tblEmployeeDetail">
+    <Key>
+      <PropertyRef Name="EmployeeDetailsID" />
+    </Key>
+    <Property Name="EmployeeDetailsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Mobile" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CommunicationAddressID" Type="Int32" Nullable="false" />
+    <Property Name="PermanentAddressID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tblAddress" Relationship="TaskModel.FK_tblEmployeeDetails_tblAddress" FromRole="tblEmployeeDetail" ToRole="tblAddress" />
+    <NavigationProperty Name="tblAddress1" Relationship="TaskModel.FK_tblEmployeeDetails_tblAddress1" FromRole="tblEmployeeDetail" ToRole="tblAddress" />
+  </EntityType>
+  <Association Name="FK_tblEmployeeDetails_tblAddress">
+    <End Type="TaskModel.tblAddress" Role="tblAddress" Multiplicity="1" />
+    <End Type="TaskModel.tblEmployeeDetail" Role="tblEmployeeDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblAddress">
+        <PropertyRef Name="AddressID" />
+      </Principal>
+      <Dependent Role="tblEmployeeDetail">
+        <PropertyRef Name="CommunicationAddressID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblEmployeeDetails_tblAddress1">
+    <End Type="TaskModel.tblAddress" Role="tblAddress" Multiplicity="1" />
+    <End Type="TaskModel.tblEmployeeDetail" Role="tblEmployeeDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblAddress">
+        <PropertyRef Name="AddressID" />
+      </Principal>
+      <Dependent Role="tblEmployeeDetail">
+        <PropertyRef Name="PermanentAddressID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

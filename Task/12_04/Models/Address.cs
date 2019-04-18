@@ -9,7 +9,7 @@ namespace _12_04.Models
     {
         public Address()
         {
-            this.EmployeeDetails = new HashSet<Employee>();
+            this.EmployeeDetails = new List<Employee>();
         }
         public int AddressID { get; set; }
         public string Address1 { get; set; }
@@ -23,6 +23,6 @@ namespace _12_04.Models
         public City City { get; set; }
         public District District { get; set; }
         public State State { get; set; }
-        public ICollection<Employee> EmployeeDetails { get; set; }
+        public List<Employee> EmployeeDetails { get; set; }
     }
 }
