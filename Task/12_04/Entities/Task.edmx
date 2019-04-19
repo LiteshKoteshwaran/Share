@@ -29,7 +29,8 @@
           <Property Name="Mobile" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CommunicationAddressID" Type="int" Nullable="false" />
-          <Property Name="PermanentAddressID" Type="int" Nullable="false" />
+          <Property Name="PermanentAddressID" Type="int" />
+          <Property Name="ISPermanentCommunicationSame" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tblMasCity">
           <Key>
@@ -103,7 +104,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tblEmployeeDetails_tblAddress1">
-          <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="1" />
+          <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="0..1" />
           <End Role="tblEmployeeDetails" Type="Self.tblEmployeeDetails" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tblAddress">
@@ -331,7 +332,8 @@
           <Property Name="Mobile" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CommunicationAddressID" Type="Int32" Nullable="false" />
-          <Property Name="PermanentAddressID" Type="Int32" Nullable="false" />
+          <Property Name="PermanentAddressID" Type="Int32" />
+          <Property Name="ISPermanentCommunicationSame" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="tblAddress" Relationship="TaskModel.FK_tblEmployeeDetails_tblAddress" FromRole="tblEmployeeDetail" ToRole="tblAddress" />
           <NavigationProperty Name="tblAddress1" Relationship="TaskModel.FK_tblEmployeeDetails_tblAddress1" FromRole="tblEmployeeDetail" ToRole="tblAddress" />
         </EntityType>
@@ -348,7 +350,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tblEmployeeDetails_tblAddress1">
-          <End Type="TaskModel.tblAddress" Role="tblAddress" Multiplicity="1" />
+          <End Type="TaskModel.tblAddress" Role="tblAddress" Multiplicity="0..1" />
           <End Type="TaskModel.tblEmployeeDetail" Role="tblEmployeeDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tblAddress">
@@ -408,6 +410,7 @@
           <EntitySetMapping Name="tblEmployeeDetails">
             <EntityTypeMapping TypeName="TaskModel.tblEmployeeDetail">
               <MappingFragment StoreEntitySet="tblEmployeeDetails">
+                <ScalarProperty Name="ISPermanentCommunicationSame" ColumnName="ISPermanentCommunicationSame" />
                 <ScalarProperty Name="PermanentAddressID" ColumnName="PermanentAddressID" />
                 <ScalarProperty Name="CommunicationAddressID" ColumnName="CommunicationAddressID" />
                 <ScalarProperty Name="Email" ColumnName="Email" />

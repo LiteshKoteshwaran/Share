@@ -12,14 +12,13 @@ namespace _12_04.ControllerLogic
     {
         TaskEntities entities = new TaskEntities();
         private bool IsSuccess = true;
-        tblEmployeeDetail objTblEmployeeDetail = new tblEmployeeDetail();
         Employee objEmployee = new Employee();
         public List<State> FetchStates()
         {
             List<State> States = new List<State>();
             foreach (var State in entities.tblMasStates)
             {
-                States.Add(new State {StateID = State.StateID, States = State.StateName});   
+                States.Add(new State { StateID = State.StateID, States = State.StateName });
             }
             return States;
         }
@@ -40,17 +39,18 @@ namespace _12_04.ControllerLogic
             List<City> Cities = new List<City>();
             foreach (var city in cities)
             {
-                Cities.Add(new City {CityID = city.CityID, Cities = city.CityName});
+                Cities.Add(new City { CityID = city.CityID, Cities = city.CityName });
             }
             return Cities;
         }
 
         public void UpdateEmployeeDetails(Employee employee)
         {
+            tblEmployeeDetail objTblEmployeeDetail = new tblEmployeeDetail();
             objTblEmployeeDetail = entities.tblEmployeeDetails.ToList().Find(objTblEmployee => objTblEmployee.EmployeeDetailsID == employee.EmployeeID);
-            UpdateEmployee(objTblEmployeeDetail,employee);
+            UpdateEmployee(objTblEmployeeDetail, employee);
         }
-        public void UpdateEmployee(tblEmployeeDetail objTblEmp ,Employee objEmployee)
+        public void UpdateEmployee(tblEmployeeDetail objTblEmp, Employee objEmployee)
         {
             objTblEmp.FirstName = objEmployee.FirstName;
             objTblEmp.LastName = objEmployee.LastName;
@@ -58,15 +58,44 @@ namespace _12_04.ControllerLogic
             objTblEmp.Mobile = objEmployee.Mobile;
             objTblEmp.Phone = objEmployee.Phone;
 
-            objTblEmp.tblAddress = ConvertAddress(objEmployee.CommunicationAddress);
+            tblAddress objAddress = ConvertAddress(objEmployee.CommunicationAddress);
+            tblAddress objTblAddress = entities.tblAddresses.Find(objAddress.AddressID);
 
-            objTblEmp.tblAddress1 = ConvertAddress(objEmployee.PermanentAddress);
+            objTblAddress.Address1 = objAddress.Address1;
+            objTblAddress.Address2 = objAddress.Address2;
+            objTblAddress.Address3 = objAddress.Address3;
+
+            objTblAddress.StateID = objAddress.StateID;
+            objTblAddress.DistrictID = objAddress.DistrictID;
+            objTblAddress.CityID = objAddress.CityID;
+            objTblAddress.Pincode = objAddress.Pincode;
+
+
+            objTblEmp.CommunicationAddressID = objAddress.AddressID;
+
+
+            tblAddress objAddress1 = ConvertAddress(objEmployee.PermanentAddress);
+            tblAddress objTblAddress1 = entities.tblAddresses.Find(objAddress1.AddressID);
+
+            objTblAddress1.Address1 = objAddress1.Address1;
+            objTblAddress1.Address2 = objAddress1.Address2;
+            objTblAddress1.Address3 = objAddress1.Address3;
+
+            objTblAddress1.StateID = objAddress1.StateID;
+            objTblAddress1.DistrictID = objAddress1.DistrictID;
+            objTblAddress1.CityID = objAddress1.CityID;
+            objTblAddress1.Pincode = objAddress1.Pincode;
+
+            objTblEmp.PermanentAddressID = objTblAddress1.AddressID;
+
+            //objTblEmp.tblAddress1 = ConvertAddress(objEmployee.PermanentAddress);
 
             entities.SaveChanges();
         }
 
-        public bool AddNewEmployee(Employee objEmployee)
+        public bool AddNewEmployee(Employee objEmployee, bool IsPermanent)
         {
+            tblEmployeeDetail objTblEmployeeDetail = new tblEmployeeDetail();
             try
             {
                 objTblEmployeeDetail.FirstName = objEmployee.FirstName;
@@ -75,9 +104,19 @@ namespace _12_04.ControllerLogic
                 objTblEmployeeDetail.Mobile = objEmployee.Mobile;
                 objTblEmployeeDetail.Phone = objEmployee.Phone;
 
-                objTblEmployeeDetail.tblAddress = ConvertAddress(objEmployee.CommunicationAddress); ;
+                // tblAddress bb = bb.tblEmployeeDetails..FirstOrDefault();
 
-                objTblEmployeeDetail.tblAddress1 = ConvertAddress(objEmployee.PermanentAddress);
+                objTblEmployeeDetail.tblAddress = ConvertAddress(objEmployee.CommunicationAddress);
+
+                if (!IsPermanent)
+                {
+                    objTblEmployeeDetail.tblAddress1 = ConvertAddress(objEmployee.PermanentAddress);
+                }
+                else
+                {
+                    //objTblEmployeeDetail.tblAddress1 = ConvertAddress(objEmployee.CommunicationAddress);
+                    objTblEmployeeDetail.ISPermanentCommunicationSame = true;
+                }
 
                 entities.tblEmployeeDetails.Add(objTblEmployeeDetail);
                 entities.SaveChanges();
@@ -92,7 +131,7 @@ namespace _12_04.ControllerLogic
         public tblAddress ConvertAddress(Address objAddress)
         {
             tblAddress objTblAddress = new tblAddress();
-
+            objTblAddress.AddressID = objAddress.AddressID;
             objTblAddress.Address1 = objAddress.Address1;
             objTblAddress.Address2 = objAddress.Address2;
             objTblAddress.Address3 = objAddress.Address3;
@@ -112,6 +151,8 @@ namespace _12_04.ControllerLogic
 
         public Employee FetchEmployeeDetails(int EmployeeID)
         {
+            tblEmployeeDetail objTblEmployeeDetail = new tblEmployeeDetail();
+
             objTblEmployeeDetail = entities.tblEmployeeDetails.ToList().Find(objTblEmployee => objTblEmployee.EmployeeDetailsID == EmployeeID);
 
             return objEmployee = ConvertTblEmployee(objTblEmployeeDetail);
@@ -128,7 +169,14 @@ namespace _12_04.ControllerLogic
 
             objEmployee.CommunicationAddress = ConvertTblAddress(objTblEmployee.tblAddress);
 
-            objEmployee.PermanentAddress = ConvertTblAddress(objTblEmployee.tblAddress1);
+            if (!objTblEmployee.ISPermanentCommunicationSame)
+            {
+                objEmployee.PermanentAddress = ConvertTblAddress(objTblEmployee.tblAddress1);
+            }
+            else
+            {
+                objEmployee.PermanentAddress = ConvertTblAddress(objTblEmployee.tblAddress);
+            }
 
             return objEmployee;
         }
@@ -140,11 +188,12 @@ namespace _12_04.ControllerLogic
             District district = new District();
             City city = new City();
 
+            objAddress.AddressID = objTblAddress.AddressID;
             objAddress.Address1 = objTblAddress.Address1;
             objAddress.Address2 = objTblAddress.Address2;
             objAddress.Address3 = objTblAddress.Address3;
 
-            
+
             state.StateID = objTblAddress.StateID;
             state.States = objTblAddress.tblMasState.StateName;
 
@@ -153,6 +202,14 @@ namespace _12_04.ControllerLogic
 
             city.CityID = objTblAddress.CityID;
             city.Cities = objTblAddress.tblMasCity.CityName;
+
+            foreach (var s in FetchStates())
+            {
+                objAddress.States.Add(s);
+
+            }
+            objAddress.Districts.Add(district);
+            objAddress.Cities.Add(city);
 
             objAddress.State = state;
             objAddress.District = district;

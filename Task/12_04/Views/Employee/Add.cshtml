@@ -12,7 +12,10 @@
         <h6 class="alert alert-info" data-toggle="collapse" data-target="#EmpDetails">Employee Details</h6>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
         @Html.HiddenFor(model=>model.EmployeeID)
+        @Html.HiddenFor(model=>model.CommunicationAddress.AddressID)
+        @Html.HiddenFor(model=>model.PermanentAddress.AddressID)
 
         <div class="row" id="EmpDetails">
             <div class="form-group col-md-4">
@@ -83,21 +86,21 @@
             <div class="form-group col-md-4">
                 @Html.LabelFor(model => model.CommunicationAddress.State.States, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-12">
-                    @Html.DropDownListFor(model => model.CommunicationAddress.State.StateID,new SelectList(Model.States,"StateID","States"),"Select State", new { id="ddlCommunicationState", htmlAttributes = new { @class = "form-control" }})
+                    @Html.DropDownListFor(model => model.CommunicationAddress.State.StateID,new SelectList(Model.CommunicationAddress.States,"StateID","States"),"Select State", new { id="ddlCommunicationState",  @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.CommunicationAddress, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group col-md-4">
                 @Html.LabelFor(model => model.CommunicationAddress.District.Districts, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-12">
-                    @Html.DropDownListFor(model => model.CommunicationAddress.District.DistrictID, new SelectList(Model.Districts, "DistrictID", "Districts"), "Select Districts", new {id="ddlCommunicationDistrict", htmlAttributes = new { @class = "form-control"} })
+                    @Html.DropDownListFor(model => model.CommunicationAddress.District.DistrictID, new SelectList(Model.CommunicationAddress.Districts, "DistrictID", "Districts"), "Select Districts", new {id="ddlCommunicationDistrict"  ,@class = "form-control" })
                     @Html.ValidationMessageFor(model => model.CommunicationAddress.District, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group col-md-4">
                 @Html.LabelFor(model => model.CommunicationAddress.City.Cities, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-12">
-                    @Html.DropDownListFor(model => model.CommunicationAddress.City.CityID, new SelectList(Model.Cities,"CityID", "Cities"), "Select City", new {id= "ddlCommunicationCity", htmlAttributes = new { @class = "form-control" } })
+                    @Html.DropDownListFor(model => model.CommunicationAddress.City.CityID, new SelectList(Model.CommunicationAddress.Cities,"CityID", "Cities"), "Select City", new {id= "ddlCommunicationCity" ,@class = "form-control"  })
                     @Html.ValidationMessageFor(model => model.CommunicationAddress.City, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -112,7 +115,7 @@
         </div>
         <h6 class="alert alert-info" data-toggle="collapse" data-target="#PermanentAddress">Permanent Address</h6>
         <div action="/action_page.php">
-            <input type="checkbox" onclick="HideFieldsForPermanent()" name="IsPermanent" value="True"> Is Permanent Address same as Communication Address??<br>
+            <input type="checkbox" onclick="HideFieldsForPermanent()" name="IsPermanent" value="True" > Is Permanent Address same as Communication Address??<br>
         </div>
         <hr />
         <div id="IsPermanent">
@@ -141,21 +144,21 @@
                 <div class="form-group col-md-4">
                     @Html.LabelFor(model => model.PermanentAddress.State.States, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-12">
-                        @Html.DropDownListFor(model => model.PermanentAddress.State.StateID, new SelectList(Model.States, "StateID", "States"), "Please select", new {id="ddlPermanentState" , htmlAttributes = new { @class = "form-control" }} )
+                        @Html.DropDownListFor(model => model.PermanentAddress.State.StateID, new SelectList(Model.PermanentAddress.States, "StateID", "States"), "Please select", new {id="ddlPermanentState" , @class = "form-control" } )
                         @Html.ValidationMessageFor(model => model.PermanentAddress.State, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group col-md-4">
                     @Html.LabelFor(model => model.PermanentAddress.District.Districts, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-12">
-                        @Html.DropDownListFor(model => model.PermanentAddress.District.DistrictID, new SelectList(Model.Districts, "DistrictID", "Districts"), "Please select", new { id= "ddlPermanentDistrict", htmlAttributes = new { @class = "form-control" }})
+                        @Html.DropDownListFor(model => model.PermanentAddress.District.DistrictID, new SelectList(Model.PermanentAddress.Districts, "DistrictID", "Districts"), "Please select", new { id= "ddlPermanentDistrict",@class = "form-control" })
                         @Html.ValidationMessageFor(model => model.PermanentAddress.District, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group col-md-4">
                     @Html.LabelFor(model => model.PermanentAddress.City.Cities, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-12">
-                        @Html.DropDownListFor(model => model.PermanentAddress.City.CityID, new SelectList(Model.Cities, "CityID", "City"), "Please select", new { id= "ddlPermanentCity",htmlAttributes = new { @class = "form-control" }})
+                        @Html.DropDownListFor(model => model.PermanentAddress.City.CityID, new SelectList(Model.PermanentAddress.Cities, "CityID", "Cities"), "Please select", new { id= "ddlPermanentCity", @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.PermanentAddress.City, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -170,8 +173,8 @@
             </div>
         </div>
     </div>
-    <div id="SaveORModify">
+    <div align="right">
         <button class="btn btn-primary">Save</button>
+        <button class="btn btn-primary" onclick="@Url.Action("Index","Home")"> Cancel</button>
     </div>
-    <button class="btn btn-primary" onclick="@Url.Action("Index","Home")"> Cancel</button>
 }

@@ -44,6 +44,7 @@
     <EntitySetMapping Name="tblEmployeeDetails">
       <EntityTypeMapping TypeName="TaskModel.tblEmployeeDetail">
         <MappingFragment StoreEntitySet="tblEmployeeDetails">
+          <ScalarProperty Name="ISPermanentCommunicationSame" ColumnName="ISPermanentCommunicationSame" />
           <ScalarProperty Name="PermanentAddressID" ColumnName="PermanentAddressID" />
           <ScalarProperty Name="CommunicationAddressID" ColumnName="CommunicationAddressID" />
           <ScalarProperty Name="Email" ColumnName="Email" />

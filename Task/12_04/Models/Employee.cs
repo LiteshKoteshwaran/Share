@@ -13,9 +13,6 @@ namespace _12_04.Models
         {
             this.CommunicationAddress = new Address();
             this.PermanentAddress =new Address();
-            this.Cities = new List<City>();
-            this.Districts = new List<District>();
-            this.States = new List<State>();
         }
         public int EmployeeID { get; set; }
 
@@ -38,13 +35,11 @@ namespace _12_04.Models
         //public List<SelectListItem> States { get; set; }
         //public List<SelectListItem> Districts { get; set; }
         //public List<SelectListItem> Cities { get; set; }
-
-        public List<State> States { get; set; }
-        public List<District> Districts { get; set; }
-        public List<City> Cities { get; set; }
         public Address PermanentAddress{ get; set; }
 
         [Required]
         public Address CommunicationAddress{ get; set; }
+
+
     }
 }

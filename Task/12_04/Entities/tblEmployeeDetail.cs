@@ -21,7 +21,8 @@ namespace _12_04.Entities
         public string Mobile { get; set; }
         public string Email { get; set; }
         public int CommunicationAddressID { get; set; }
-        public int PermanentAddressID { get; set; }
+        public Nullable<int> PermanentAddressID { get; set; }
+        public bool ISPermanentCommunicationSame { get; set; }
     
         public virtual tblAddress tblAddress { get; set; }
         public virtual tblAddress tblAddress1 { get; set; }

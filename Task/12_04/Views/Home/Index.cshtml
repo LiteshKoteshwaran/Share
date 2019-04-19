@@ -12,7 +12,7 @@
 </div>
 <div id="ForSearch">
     <input type="text" id="EmployeeId" placeholder="Search for Employee" />
-    <input id="searchbutton"type="button" class="btn btn-primary" value="Search" onclick="location.href = '@Url.Action("Edit", "Employee")?id=' + document.getElementById('EmployeeId').value" />
+    <input id="searchbutton" type="button" class="btn btn-primary" value="Search" onclick="location.href = '@Url.Action("Edit", "Employee")?id=' + document.getElementById('EmployeeId').value" />
 </div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -29,7 +29,7 @@
 
     function ShowTextBox() {
         $("#ForSearch").show();
-        $("#searchbutton").click(function() {
+        $("#searchbutton").click(function () {
             document.getElementById("SaveORModify").value = "Modify";
             $("#SaveORModify").html('<button class="btn btn-primary">Modify</button>');
 

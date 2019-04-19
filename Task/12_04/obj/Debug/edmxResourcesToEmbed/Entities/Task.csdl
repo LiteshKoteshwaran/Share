@@ -154,7 +154,8 @@
     <Property Name="Mobile" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="CommunicationAddressID" Type="Int32" Nullable="false" />
-    <Property Name="PermanentAddressID" Type="Int32" Nullable="false" />
+    <Property Name="PermanentAddressID" Type="Int32" />
+    <Property Name="ISPermanentCommunicationSame" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="tblAddress" Relationship="TaskModel.FK_tblEmployeeDetails_tblAddress" FromRole="tblEmployeeDetail" ToRole="tblAddress" />
     <NavigationProperty Name="tblAddress1" Relationship="TaskModel.FK_tblEmployeeDetails_tblAddress1" FromRole="tblEmployeeDetail" ToRole="tblAddress" />
   </EntityType>
@@ -171,7 +172,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_tblEmployeeDetails_tblAddress1">
-    <End Type="TaskModel.tblAddress" Role="tblAddress" Multiplicity="1" />
+    <End Type="TaskModel.tblAddress" Role="tblAddress" Multiplicity="0..1" />
     <End Type="TaskModel.tblEmployeeDetail" Role="tblEmployeeDetail" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="tblAddress">

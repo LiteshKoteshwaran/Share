@@ -20,11 +20,11 @@ namespace _12_04.Business
         {
             return ObjEmployeeRepository.FetchDistricts(Id);
         }
-        
+
         public List<City> GetCities(int? Id)
         {
             return ObjEmployeeRepository.FetchCities(Id);
-      }
+        }
 
         public bool IsUserExits(int id)
         {

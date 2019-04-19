@@ -24,7 +24,8 @@
     <Property Name="Mobile" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="CommunicationAddressID" Type="int" Nullable="false" />
-    <Property Name="PermanentAddressID" Type="int" Nullable="false" />
+    <Property Name="PermanentAddressID" Type="int" />
+    <Property Name="ISPermanentCommunicationSame" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="tblMasCity">
     <Key>
@@ -98,7 +99,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_tblEmployeeDetails_tblAddress1">
-    <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="1" />
+    <End Role="tblAddress" Type="Self.tblAddress" Multiplicity="0..1" />
     <End Role="tblEmployeeDetails" Type="Self.tblEmployeeDetails" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="tblAddress">

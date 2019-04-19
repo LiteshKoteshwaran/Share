@@ -14,7 +14,7 @@
         <AssociationConnector Association="TaskModel.FK_tblAddress_tblMasState" ManuallyRouted="false" />
         <AssociationConnector Association="TaskModel.FK_tblMasCity_tblMasDistrict" ManuallyRouted="false" />
         <AssociationConnector Association="TaskModel.FK_tblMasDistrict_tblMasDistrict" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="TaskModel.tblEmployeeDetail" Width="1.5" PointX="5.625" PointY="0.75" />
+        <EntityTypeShape EntityType="TaskModel.tblEmployeeDetail" Width="1.5" PointX="5.625" PointY="7.125" />
         <AssociationConnector Association="TaskModel.FK_tblEmployeeDetails_tblAddress" />
         <AssociationConnector Association="TaskModel.FK_tblEmployeeDetails_tblAddress1" />
         </Diagram>

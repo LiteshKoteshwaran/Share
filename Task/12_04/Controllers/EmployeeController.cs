@@ -15,54 +15,83 @@ namespace _12_04.Controllers
     {
         // GET: Employee
 
-        EmployeeBusiness objEmployeeBusiness = new EmployeeBusiness();
         public ActionResult Add(int? StateId, int? DistrictId)
         {
+            EmployeeBusiness objEmployeeBusiness = new EmployeeBusiness();
+
             Employee ObjEmployee = new Employee();
 
-            ObjEmployee.States = objEmployeeBusiness.GetStates();
+            ObjEmployee.CommunicationAddress.States = objEmployeeBusiness.GetStates();
+            ObjEmployee.PermanentAddress.States = objEmployeeBusiness.GetStates();
             return View(ObjEmployee);
         }
 
         [HttpPost]
-        public ActionResult Add(Employee objEmployee)
+        public ActionResult Add(Employee objEmployee, bool IsPermanent)
         {
             EmployeeRepository objEmployeeRepository = new EmployeeRepository();
 
-            objEmployeeRepository.AddNewEmployee(objEmployee);
+            objEmployeeRepository.AddNewEmployee(objEmployee,IsPermanent);
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult ForCasCading(int? StateId, int? DistrictId)
+        public ActionResult ForCasCading(int? ComStateId, int? ComDistrictId, int? PerStateId, int? PerDistrictId)
         {
-            string IsStateOrCity = "";
+            EmployeeBusiness objEmployeeBusiness = new EmployeeBusiness();
+
+            string IsComStateOrCity = "";
+            string IsPerStateOrCity = "";
             Employee ObjEmployee = new Employee();
 
-            ObjEmployee.States = objEmployeeBusiness.GetStates();
+            ObjEmployee.CommunicationAddress.States = objEmployeeBusiness.GetStates();
+            ObjEmployee.PermanentAddress.States = objEmployeeBusiness.GetStates();
 
-            if (StateId.HasValue)
+            if (ComStateId.HasValue)
             {
-                IsStateOrCity = "state";
-                ObjEmployee.Districts = objEmployeeBusiness.GetDistricts(StateId);
+                IsComStateOrCity = "state";
+                ObjEmployee.CommunicationAddress.Districts = objEmployeeBusiness.GetDistricts(ComStateId);
             }
-            if (DistrictId.HasValue)
+            if (ComDistrictId.HasValue)
             {
-                IsStateOrCity = "city";
-                ObjEmployee.Cities = objEmployeeBusiness.GetCities(DistrictId);
+                IsComStateOrCity = "city";
+                ObjEmployee.CommunicationAddress.Cities = objEmployeeBusiness.GetCities(ComDistrictId);
             }
 
 
-            if (IsStateOrCity == "state")
+            if (IsComStateOrCity == "state")
             {
-                return Json(ObjEmployee.Districts, JsonRequestBehavior.AllowGet);
+                return Json(ObjEmployee.CommunicationAddress.Districts, JsonRequestBehavior.AllowGet);
+            }
+            if(IsComStateOrCity=="city")
+            {
+                return Json(ObjEmployee.CommunicationAddress.Cities, JsonRequestBehavior.AllowGet);
+            }
+
+            if (PerStateId.HasValue)
+            {
+                IsPerStateOrCity = "state";
+                ObjEmployee.PermanentAddress.Districts = objEmployeeBusiness.GetDistricts(PerStateId);
+            }
+            if (PerDistrictId.HasValue)
+            {
+                IsPerStateOrCity = "city";
+                ObjEmployee.PermanentAddress.Cities = objEmployeeBusiness.GetCities(PerDistrictId);
+            }
+
+
+            if (IsPerStateOrCity == "state")
+            {
+                return Json(ObjEmployee.PermanentAddress.Districts, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                return Json(ObjEmployee.Cities, JsonRequestBehavior.AllowGet);
+                return Json(ObjEmployee.PermanentAddress.Cities, JsonRequestBehavior.AllowGet);
             }
         }
         public ActionResult Edit(int id)
         {
+            EmployeeBusiness objEmployeeBusiness = new EmployeeBusiness();
+
             Employee objEmployee = new Employee();
             bool IsUserExits;
             IsUserExits = objEmployeeBusiness.IsUserExits(id);
@@ -78,10 +107,12 @@ namespace _12_04.Controllers
             }
 
         }
+
         [HttpPost]
         public ActionResult Edit(Employee objEmployee)
         {
             new EmployeeRepository().UpdateEmployeeDetails(objEmployee);
+
             return RedirectToAction("Index","Home");
         }
     }
